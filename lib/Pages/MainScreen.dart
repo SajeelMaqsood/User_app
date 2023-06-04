@@ -99,7 +99,7 @@ class _MainScreenState extends State<MainScreen> {
       mechanicCategory="bikeMechanic";
     }
 
-    userRequestsRef = FirebaseDatabase.instance.ref().child("User Requests").push();
+    // userRequestsRef = FirebaseDatabase.instance.ref().child("User Requests").push();
     var userLoaction = Provider.of<AppData>(context,listen: false).userLocation;
     Map userlocMap={
       "latitude" : userLoaction!.latitude.toString(),
@@ -112,6 +112,7 @@ class _MainScreenState extends State<MainScreen> {
       "user_name": userCurrentInfo!.name,
       "user_phone":userCurrentInfo!.phone,
       "user_address":userLoaction.placeName,
+      "user_photo":userCurrentInfo!.UrlImage,
       "mechanic_category":mechanicCategory,
     };
     userRequestsRef.set(userinfo);
@@ -132,6 +133,18 @@ class _MainScreenState extends State<MainScreen> {
       {
         setState(() {
           mechanicPhone = event.snapshot.child("mechanic_phone").value.toString();
+        });
+      }
+      if(event.snapshot.child("mechanic_image").value!= null)
+      {
+        setState(() {
+          mechanicImage = event.snapshot.child("mechanic_image").value.toString();
+        });
+      }
+      if(event.snapshot.child("mechanic_id").value!= null)
+      {
+        setState(() {
+          mechanicId = event.snapshot.child("mechanic_id").value.toString();
         });
       }
 
@@ -236,6 +249,7 @@ class _MainScreenState extends State<MainScreen> {
       statusReq="";
       mechanicName="";
       mechanicPhone="";
+      mechanicImage="";
       mechanicDetailsContainerHeight=0.0;
       mechanicStatus="Mechanic is Coming";
 
@@ -286,14 +300,19 @@ class _MainScreenState extends State<MainScreen> {
 
 
                           imageurl!=null?
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(60),
-                          child: CachedNetworkImage(
-                            width: 60,
-                            height: 60,
+                          CachedNetworkImage(
                             imageUrl: userCurrentInfo!.UrlImage.toString(),
-                          ),
-                        )
+                            imageBuilder: (context, imageProvider) => Container(
+                              width: 60.0,
+                              height: 60.0,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: imageProvider, fit: BoxFit.cover),
+                              ),
+                            ),
+                          )
+
                         :
                           CircleAvatar(
                               child: Icon(Icons.person)),
@@ -829,8 +848,6 @@ class _MainScreenState extends State<MainScreen> {
 
                       SizedBox(height: 22.0,),
 
-                      // Text(carDetailsDriver, style: TextStyle(color: Colors.grey),),
-
                       Text(mechanicName, style: TextStyle(fontSize: 20.0),),
 
                       SizedBox(height: 22.0,),
@@ -883,10 +900,10 @@ class _MainScreenState extends State<MainScreen> {
                               onPressed: () async
                               {
                                 //launchUrl(Uri.parse(('tel://${mechanicPhone}')));
-                              //   Navigator.push(
-                              //       context,
-                              //       MaterialPageRoute(
-                              //           builder: (_) => ChatScreen()));
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (_) => ChatScreen()));
                               },
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1078,7 +1095,7 @@ class _MainScreenState extends State<MainScreen> {
         }
         else
         {
-          displayToastMessage(mechanicType + " mechanic not available. Try again.", context);
+          displayToastMessage(mechanicCategory! + " mechanic not available. Try again.", context);
         }
       }
       else

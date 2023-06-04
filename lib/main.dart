@@ -20,7 +20,7 @@ Size mq=Size(0, 0);
 
 DatabaseReference  userRef= FirebaseDatabase.instance.ref().child("users");
 DatabaseReference  mechanicRef= FirebaseDatabase.instance.ref().child("mechanic");
-DatabaseReference  userRequestsRef= FirebaseDatabase.instance.ref().child("User Requests");
+DatabaseReference  userRequestsRef= FirebaseDatabase.instance.ref().child("User Requests").push();
 
 class MyApp extends StatelessWidget {
 

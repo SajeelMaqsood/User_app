@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 
+import '../configMap.dart';
 import '../main.dart';
 import 'MainScreen.dart';
 
@@ -214,6 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
       userRef.child(user.uid).once().then((value) {
         final DataSnapshot snap = value.snapshot;
 
+        currentfirebaseUser= user;
 
         if (snap.value != null) {
           Navigator.pushNamedAndRemoveUntil(

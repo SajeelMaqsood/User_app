@@ -18,9 +18,12 @@ String statusReq="";
 String mechanicStatus="Mechanic is coming";
 String mechanicName="";
 String mechanicPhone="";
+String mechanicImage="";
+String mechanicId="";
 StreamSubscription<Position> ?homeTabStreamSubscription;
 double starCounter = 0.0;
 String  ?title;
+
 
 String ? mechanicCategory;
 

@@ -161,10 +161,14 @@ class _UserProfileState extends State<UserProfile> {
 
                               ElevatedButton(
                                 onPressed: () {
-                                  if (_formKey.currentState!.validate()) {
+                                  if (_formKey.currentState!.validate()&&_image!.isNotEmpty) {
                                     SaveInfo(context);
 
                                   }
+                                  else
+                                    {
+                                      displayToastMessage("Selecte profile image", context);
+                                    }
 
                                 },
                                 style: ButtonStyle(
